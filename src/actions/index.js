@@ -5,12 +5,29 @@ const ROOT_URL = `http://api.openweathermap.org/data/2.5/forecast?appid=${API_KE
 
 export const FETCH_WEATHER = 'FETCH_WEATHER';
 
-export function fetchWeather(city) {
-    const url = `${ROOT_URL}&q=${city},es`;
-    const request = axios.get(url);
+//usign redux-promise
+// export function fetchWeather(city) {
+//     const url = `${ROOT_URL}&q=${city},es`;
+//     const request = axios.get(url);
 
-    return {
-        type: FETCH_WEATHER,
-        payload: request
+//     return {
+//         type: FETCH_WEATHER,
+//         payload: request
+//     }
+// }
+
+
+//Using redux-thunk
+export function fetchWeather (city) {
+    const url = `${ROOT_URL}&q=${city},es`;
+
+    return (dispatch, getState) => {
+        axios.get(url)
+        .then((response)=>{
+            dispatch({
+               type: FETCH_WEATHER,
+               payload: response 
+            })
+        })
     }
 }
